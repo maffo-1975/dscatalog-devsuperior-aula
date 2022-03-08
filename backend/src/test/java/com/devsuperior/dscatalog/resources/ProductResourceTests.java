@@ -49,6 +49,8 @@ public class ProductResourceTests {
 	private Long nonExistingId;
 	private Long dependentId;
 
+	private Long existingCategoryId;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		existingId = 1L;
@@ -57,9 +59,12 @@ public class ProductResourceTests {
 		productDTO = Factory.createProductDTO();
 		page = new PageImpl<>(List.of(productDTO));
 
+		existingCategoryId = 3L;
+
 		when(service.insert(any())).thenReturn(productDTO);
 
-		when(service.findAllPaged(any())).thenReturn(page);
+		// when(service.findAllPaged(any())).thenReturn(page);
+		when(service.findAllPaged(existingCategoryId, any())).thenReturn(page);
 
 		when(service.findById(existingId)).thenReturn(productDTO);
 		when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundException.class);

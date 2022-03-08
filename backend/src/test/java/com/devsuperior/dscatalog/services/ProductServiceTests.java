@@ -52,6 +52,8 @@ public class ProductServiceTests {
 	private Category category;
 	private CategoryDTO categoryDTO;
 
+	private Long existingCategoryId;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		existingId = 1L;
@@ -62,6 +64,8 @@ public class ProductServiceTests {
 		productDTO = Factory.createProductDTO();
 		category = Factory.createCategory();
 		categoryDTO = Factory.createCategoryDTO();
+
+		existingCategoryId = 3L;
 
 		Mockito.when(repository.getOne(existingId)).thenReturn(product);
 		Mockito.when(categoryRepository.getOne(categoryDTO.getId())).thenReturn(category);
@@ -119,7 +123,7 @@ public class ProductServiceTests {
 	@Test
 	public void findAllPagedShouldReturnPage() {
 		Pageable pageable = PageRequest.of(0, 10);
-		Page<ProductDTO> result = service.findAllPaged(pageable);
+		Page<ProductDTO> result = service.findAllPaged(existingCategoryId, pageable);
 
 		Assertions.assertNotNull(result);
 		Mockito.verify(repository, Mockito.times(1)).findAll(pageable);
